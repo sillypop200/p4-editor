@@ -41,25 +41,71 @@ public:
     }
 
   //EFFECTS:  inserts datum into the front of the list
-  void push_front(const T &datum);
+  void push_front(const T &datum){
+    Node * incoming = new Node;
+    incoming->datum=datum;
+    incoming->prev=nullptr;
+    incoming->next=first;
+    first = incoming;
+    _size = _size + 1;
+  }
 
   //EFFECTS:  inserts datum into the back of the list
-  void push_back(const T &datum);
+  void push_back(const T &datum){
+    Node * income = new Node;
+    income->datum=datum;
+    income->prev=last;
+    income->next=nullptr;
+    last=income;
+    _size = _size + 1;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the front of the list
-  void pop_front();
+  void pop_front(){
+    Node * to_delete = first;
+    first = first->next; 
+    delete to_delete;
+    first->prev=nullptr;
+    _size = _size - 1;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the back of the list
-  void pop_back();
+  void pop_back(){
+    Node * to_delete = last;
+     last = last->prev; 
+     delete to_delete;
+     last->next = nullptr;
+    _size = _size - 1;
+  }
 
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes all items from the list
-  void clear();
+  void clear(){
+    while(!empty()){
+      pop_front();
+    }
+  }
 
+~List(){
+  clear();
+}
+List (const List & other)
+: first(nullptr), last(nullptr),_size(0){
+  copy_all(other);
+}
+List & operator= (const List & rhs){
+  if (this == &rhs ) {return *this;}
+  clear();
+  copy_all(rhs);
+  return *this;
+}
+List () 
+: first(nullptr),last(nullptr),_size(0){
+}
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
   // will work correctly without defining these, you should omit them. A user
@@ -75,7 +121,11 @@ private:
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
-  void copy_all(const List<T> &other);
+  void copy_all(const List<T> &other){
+    for (Node *np = other.first;np; np=np->next){
+      push_back(np->datum);
+    }
+  }
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
@@ -176,22 +226,30 @@ public:
   ////////////////////////////////////////
 
   // return an Iterator pointing to the first element
-  Iterator begin() const;
+  Iterator begin() const{
+  assert (false);
+  }
 
   // return an Iterator pointing to "past the end"
-  Iterator end() const;
+  Iterator end() const{
+    assert (false);
+  }
 
   //REQUIRES: i is a valid, dereferenceable iterator associated with this list
   //MODIFIES: may invalidate other list iterators
   //EFFECTS: Removes a single element from the list container.
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
-  Iterator erase(Iterator i);
+  Iterator erase(Iterator i){
+    assert (false);
+  }
 
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
-  Iterator insert(Iterator i, const T &datum);
+  Iterator insert(Iterator i, const T &datum){
+    assert (false);
+  }
 
 };//List
 
