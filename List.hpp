@@ -17,20 +17,28 @@ class List {
 public:
 
   //EFFECTS:  returns true if the list is empty
-  bool empty() const;
+  bool empty() const{
+    return !first;
+  }
 
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow. Instead, keep track of the size
   //         with a private member variable. That's how std::list does it.
-  int size() const;
+  int size() const{
+    return _size;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
-  T & front();
+  T & front(){
+    return first->datum;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the last element in the list by reference
-  T & back();
+  T & back(){
+    return last->datum;
+    }
 
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum);
@@ -71,6 +79,7 @@ private:
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
+  size_t _size;
 
 public:
   ////////////////////////////////////////
