@@ -40,5 +40,13 @@ TEST(test_popandpushfront) {
     list.pop_front();
     ASSERT_TRUE(list.empty());
 }
-
+TEST(equaloperator){
+    List<int> list;
+    List <int> listcopy; 
+    list.push_back(1);
+    listcopy.push_front(2);
+    list = listcopy; 
+    List<int>::Iterator it =list.begin();
+    ASSERT_EQUAL(*it,2);
+}
 TEST_MAIN()
