@@ -139,7 +139,8 @@ public:
 
     // Add a default constructor here. The default constructor must set both
     // pointer members to null pointers.
-
+     Iterator ()
+     :list_ptr(nullptr),node_ptr(nullptr){}
 
 
     // Add custom implementations of the destructor, copy constructor, and
@@ -167,9 +168,26 @@ public:
     //     violates the REQURES clause.
     // Note: comparing both the list and node pointers should be
     // sufficient to meet these requirements.
-
-
-
+    T & operator* () const{
+      assert(node_ptr);
+      return node_ptr->datum;
+    }
+    Iterator & operator++ (){
+      assert(node_ptr);
+      node_ptr=node_ptr->next;
+      return *this;
+    }
+    Iterator operator++ (int /* postfix */){
+      Iterator copy = *this; 
+      operator--();
+      return copy; 
+    }
+    bool operator== (Iterator rhs) const {
+      return node_ptr == rhs.node_ptr;
+    }
+    bool operator!= (Iterator rhs) const {
+      return !(node_ptr==rhs.node_ptr);
+    }
     // Type aliases required to work with STL algorithms. Do not modify these.
     using iterator_category = std::bidirectional_iterator_tag;
     using value_type = T;
@@ -215,24 +233,24 @@ public:
     Node *node_ptr; //current Iterator position is a List node
     // add any additional necessary member variables here
 
-
     // add any friend declarations here
-
+    friend class List;
 
     // construct an Iterator at a specific position in the given List
     Iterator(const List *lp, Node *np);
-
+    Iterator (Node *np)
+    : node_ptr (np){}
   };//List::Iterator
   ////////////////////////////////////////
 
   // return an Iterator pointing to the first element
   Iterator begin() const{
-  assert (false);
+  return Iterator(first);
   }
 
   // return an Iterator pointing to "past the end"
   Iterator end() const{
-    assert (false);
+    return Iterator(nullptr);
   }
 
   //REQUIRES: i is a valid, dereferenceable iterator associated with this list
@@ -252,7 +270,6 @@ public:
   }
 
 };//List
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Add your member function implementations below or in the class above
