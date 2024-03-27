@@ -18,7 +18,9 @@ public:
 
   //EFFECTS:  returns true if the list is empty
   bool empty() const{
-    return !first;
+    if (_size ==0 ){
+      return true;
+    }else{return false; }
   }
 
   //EFFECTS: returns the number of elements in this List
@@ -42,21 +44,28 @@ public:
 
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum){
-    Node * incoming = new Node;
-    incoming->datum=datum;
-    incoming->prev=nullptr;
-    incoming->next=first;
-    first = incoming;
+    Node *incoming = new Node{first, nullptr,datum};
+    if (_size==0){
+      last=incoming;
+      first=incoming;
+    }else{
+      first->prev=incoming;
+      first = incoming;
+    }
     _size = _size + 1;
+  
   }
 
   //EFFECTS:  inserts datum into the back of the list
   void push_back(const T &datum){
-    Node * income = new Node;
-    income->datum=datum;
-    income->prev=last;
-    income->next=nullptr;
-    last=income;
+    Node *income = new Node{nullptr,last,datum};
+    if (_size==0 ){
+      first =income; 
+      last=income;
+    }else{
+      last->next = income; 
+      last = income; 
+    }
     _size = _size + 1;
   }
 
@@ -64,10 +73,11 @@ public:
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the front of the list
   void pop_front(){
-    Node * to_delete = first;
+    Node *to_delete = first;
     first = first->next; 
     delete to_delete;
-    first->prev=nullptr;
+    if (first){
+    first->prev = nullptr;}
     _size = _size - 1;
   }
 
@@ -78,7 +88,8 @@ public:
     Node * to_delete = last;
      last = last->prev; 
      delete to_delete;
-     last->next = nullptr;
+     if (last){
+     last->next = nullptr;}
     _size = _size - 1;
   }
 
@@ -186,7 +197,7 @@ public:
       return node_ptr == rhs.node_ptr;
     }
     bool operator!= (Iterator rhs) const {
-      return !(node_ptr==rhs.node_ptr);
+      return node_ptr!=rhs.node_ptr;
     }
     // Type aliases required to work with STL algorithms. Do not modify these.
     using iterator_category = std::bidirectional_iterator_tag;
@@ -239,7 +250,7 @@ public:
     // construct an Iterator at a specific position in the given List
     Iterator(const List *lp, Node *np);
     Iterator (Node *np)
-    : node_ptr (np){}
+    : node_ptr(np){}
   };//List::Iterator
   ////////////////////////////////////////
 

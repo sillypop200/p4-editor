@@ -15,12 +15,28 @@ TEST(test_traversal) {
         list.push_back(i);
     }
     int j = 0;
-    for (List<int>::Iterator it = list.begin(); it != list.end(); ++it, ++j) {
+    for (List<int>::Iterator it = list.begin(); it != list.end(); ++j, ++it) {
         ASSERT_EQUAL(*it, j);
     }
-    cout << "j" << j;
-    cout << "list size " << list.size();
     ASSERT_EQUAL(j, list.size());
+    for (int i = 0; i< 4; ++i){
+        list.pop_back();
+    }
+    List<int>::Iterator he = list.begin();
+    ASSERT_EQUAL(*he,0);
+    list.pop_back();
+    ASSERT_TRUE(list.empty());
 }
-
+TEST(test_popandpushfront) {
+    List<int> list;
+        list.push_front(1);
+   
+    int j = 1;
+    for (List<int>::Iterator it = list.begin(); it != list.end(); ++j, ++it) {
+        ASSERT_EQUAL(*it, j);
+    }
+    ASSERT_EQUAL(1, list.size());
+    list.pop_front();
+    ASSERT_TRUE(list.empty());
+}
 TEST_MAIN()
