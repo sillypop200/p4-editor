@@ -18,6 +18,8 @@ TEST(test_traversal) {
     for (List<int>::Iterator it = list.begin(); it != list.end(); ++it, ++j) {
         ASSERT_EQUAL(*it, j);
     }
+    cout << "j" << j;
+    cout << "list size " << list.size();
     ASSERT_EQUAL(j, list.size());
 }
 

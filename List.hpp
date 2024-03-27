@@ -259,15 +259,23 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
-    assert (false);
+  ((i.node_ptr)->next)->prev=(i.node_ptr)->prev; 
+  ((i.node_ptr)->prev)->next = (i.node_ptr)->next; 
+   return Iterator ((i.node_ptr)->next);
   }
 
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
   Iterator insert(Iterator i, const T &datum){
-    assert (false);
-  }
+    Node *income = new Node; 
+    income->datum = datum;
+    income->next = i.node_ptr;
+    income->prev = (i.node_ptr)->prev;
+    ((i.node_ptr)->prev)->next = income;
+    (i.node_ptr)->prev= income;
+    return Iterator (income);
+    }
 
 };//List
 
