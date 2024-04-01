@@ -17,8 +17,8 @@
 class TextBuffer {
   // Comment out the following two lines and uncomment the two below
   // to use your List implementation
- // using CharList = std::list<char>;
-//using Iterator = std::list<char>::iterator;
+  // using CharList = std::list<char>;
+  //using Iterator = std::list<char>::iterator;
    using CharList = List<char>;
    using Iterator = List<char>::Iterator;
 
@@ -55,7 +55,6 @@ public:
   //EFFECTS: Creates an empty text buffer. Its cursor is at the past-the-end
   //         position, with row 1, column 0, and index 0.
   TextBuffer();
-
   //MODIFIES: *this
   //EFFECTS:  Moves the cursor one position forward and returns true,
   //          unless the cursor is already at the past-the-end position,
