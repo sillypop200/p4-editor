@@ -133,6 +133,7 @@ TEST(frontandback){
         List<int>::Iterator help;
         List<int>::Iterator helpcopy;
         ASSERT_TRUE(help==helpcopy);
+        ASSERT_FALSE(help!=helpcopy);
         List<int> lit; 
         lit.push_back(39);
         lit.push_back(24);
@@ -143,6 +144,11 @@ TEST(frontandback){
         --list;
         List<int>::Iterator yum = lit.begin(); 
         ASSERT_TRUE(list!= yum);
+        ASSERT_FALSE(list==yum);
+        ++yum;
+        ++yum;
+        ASSERT_TRUE(list==yum);
+        ASSERT_FALSE(list!= yum);
     }
     TEST(copyconstructor){
         List<int> list;
@@ -167,6 +173,9 @@ TEST(frontandback){
         ASSERT_TRUE(list.size()==3);
         ASSERT_TRUE(list.front()==1);
         ASSERT_TRUE(list.back()==9);
+        ASSERT_TRUE(copy.size()==3);
+        ASSERT_TRUE(copy.front()==1);
+        ASSERT_TRUE(copy.back()==9);
         List<int>::Iterator it = list.begin();
         ++it;
         ASSERT_EQUAL(*it,3);
