@@ -150,16 +150,12 @@ public:
 
     // Add a default constructor here. The default constructor must set both
     // pointer members to null pointers.
-     Iterator ()
-     :list_ptr(nullptr),node_ptr(nullptr){}
-
+     Iterator ():list_ptr(nullptr),node_ptr(nullptr){ }
 
     // Add custom implementations of the destructor, copy constructor, and
     // overloaded assignment operator, if appropriate. If these operations
     // will work correctly without defining these, you should omit them. A user
     // of the class must be able to copy, assign, and destroy Iterators.
-
-
 
     // Your iterator should implement the following public operators:
     // *, ++ (both prefix and postfix), == and !=.
@@ -248,20 +244,19 @@ public:
     friend class List;
 
     // construct an Iterator at a specific position in the given List
-    Iterator(const List *lp, Node *np);
-    Iterator (Node *np)
-    : node_ptr(np){}
+    Iterator(const List *lp, Node *np)
+    :list_ptr(lp),node_ptr(np){}
   };//List::Iterator
   ////////////////////////////////////////
 
   // return an Iterator pointing to the first element
   Iterator begin() const{
-  return Iterator(first);
+  return Iterator(this, first);
   }
 
   // return an Iterator pointing to "past the end"
   Iterator end() const{
-    return Iterator(nullptr);
+    return Iterator(this, nullptr);
   }
 
   //REQUIRES: i is a valid, dereferenceable iterator associated with this list
@@ -270,22 +265,52 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
-  ((i.node_ptr)->next)->prev=(i.node_ptr)->prev; 
+      Iterator bein (this, first);
+      Iterator end (this, last);
+    if (i==bein && i ==end){
+       pop_front();
+    return Iterator(this, nullptr); 
+  }else if(i == bein && i !=end){
+    pop_front();
+    return Iterator(this, first);
+  }else if(i == end && i != bein){
+    pop_back();
+    return Iterator(this, nullptr);
+  }else{
+
   ((i.node_ptr)->prev)->next = (i.node_ptr)->next; 
-   return Iterator ((i.node_ptr)->next);
+  ((i.node_ptr)->next)->prev=(i.node_ptr)->prev; 
+  --_size;
+   return Iterator (this, (i.node_ptr)->next);
   }
+  }
+  
 
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
   Iterator insert(Iterator i, const T &datum){
+     Iterator bein (this, first);
+      Iterator end (this, last);
+      if (i==bein && i ==end){
+        push_front(datum);
+        return Iterator (this, first);
+      }else if (i==bein&& i!=end){
+        push_front(datum);
+        return Iterator (this, first);
+      }else if(i!= bein && i ==end){
+        push_back(datum);
+        return Iterator(this, last);
+      }else{
     Node *income = new Node; 
     income->datum = datum;
     income->next = i.node_ptr;
     income->prev = (i.node_ptr)->prev;
     ((i.node_ptr)->prev)->next = income;
     (i.node_ptr)->prev= income;
-    return Iterator (income);
+    ++_size;
+    return Iterator (this, income);
+      }
     }
 
 };//List
