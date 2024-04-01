@@ -290,7 +290,7 @@ public:
   //         Returns an iterator to the the newly inserted element.
   Iterator insert(Iterator i, const T &datum){
      Iterator bein (this, first);
-      Iterator end (this, last);
+      Iterator end (this, nullptr);
       if (i==bein && i ==end){
         push_front(datum);
         return Iterator (this, first);

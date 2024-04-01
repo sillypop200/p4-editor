@@ -180,26 +180,82 @@ TEST(frontandback){
         ++it;
         ASSERT_EQUAL(*it,3);
     }
-    TEST(final){
+    TEST(erasetest){
         List<int> list; 
        list.push_back(1);
        list.push_back(2);
        list.push_back(3);
         List<int>::Iterator it = list.begin();
-        List<int>::Iterator output = list.erase(it);
+        List<int>::Iterator output = list.erase(it); //use erase on the first  
         ASSERT_EQUAL(*output,2);
-        List<int>::Iterator help = list.erase(output);
+        ASSERT_EQUAL(list.front(),2);
+        List<int>::Iterator help = list.erase(output); // use erase first
         ASSERT_EQUAL(*help,3);
+        list.erase(help);  //erase one and only 
+        ASSERT_TRUE(list.empty());
     }
-    TEST(finalyumyum){
+    TEST(inserttest){
         List<int> list; 
        list.push_back(1);
         List<int>::Iterator it = list.begin();
-        List<int>::Iterator output = list.insert(it,2);
+        List<int>::Iterator output = list.insert(it,2); //insert begin 
         ASSERT_EQUAL(*output,2);
         ASSERT_EQUAL(list.size(),2);
-        List<int>::Iterator help = list.insert(output,3);
+        List<int>::Iterator help = list.insert(output,3); //insert begin 
         ASSERT_EQUAL(*help,3);
         ASSERT_EQUAL(list.size(),3);
+    }
+    TEST(insertthenerase){
+        List<int>list;
+        List<int>::Iterator it = list.begin();
+        List<int>::Iterator output = list.insert(it,1); // insert empty 
+        ASSERT_EQUAL(*(list.begin()),1);
+        ASSERT_EQUAL(*output,1);
+        ASSERT_EQUAL(list.size(),1);
+        list.erase(list.begin());// use erase on end 
+        ASSERT_TRUE(list.empty());
+    }
+    TEST(insertthenerase2){
+        List<int>list;
+        List<int>::Iterator it = list.begin();
+        List<int>::Iterator output = list.insert(it,1);
+        ASSERT_EQUAL(*(list.begin()),1);
+        ASSERT_EQUAL(*output,1);
+        ASSERT_EQUAL(list.size(),1);
+        list.erase(list.begin());
+        ASSERT_TRUE(list.empty());
+    }
+    TEST(ineedhelp){
+        List<int>list;
+        list.push_back(3);
+        list.push_back(5);
+        list.push_back(9);
+        list.push_back(34);
+        List<int>::Iterator it = list.end();
+        List<int>::Iterator in = list.insert(it,4);//insert at back 
+        ASSERT_EQUAL(*in,4);
+        ASSERT_EQUAL(list.back(),4);
+        --it; 
+        List<int>::Iterator meep = list.insert(it,4);
+        ASSERT_EQUAL(*meep,4);
+    }
+    TEST(backwards){
+        List<int> list; 
+       list.push_back(1);
+       list.push_back(2);
+       list.push_back(3);
+        list.push_back(4);
+       list.push_back(5);
+       list.push_back(6);
+       list.push_back(7);
+       list.push_back(8);
+       list.push_back(9);
+       List<int>::Iterator it = list.end();
+       --it;
+       int j = 9;
+       for (;it!=list.begin();--it,--j){
+            ASSERT_EQUAL(*it, j);
+       }
+       ASSERT_EQUAL(*it,1);
     }
 TEST_MAIN()
