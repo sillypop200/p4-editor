@@ -244,8 +244,7 @@ public:
     friend class List;
 
     // construct an Iterator at a specific position in the given List
-    Iterator(const List *lp, Node *np)
-    :list_ptr(lp),node_ptr(np){}
+    Iterator(const List *lp, Node *np):list_ptr(lp),node_ptr(np){}
   };//List::Iterator
   ////////////////////////////////////////
 

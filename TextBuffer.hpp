@@ -18,7 +18,7 @@ class TextBuffer {
   // Comment out the following two lines and uncomment the two below
   // to use your List implementation
   // using CharList = std::list<char>;
-  //using Iterator = std::list<char>::iterator;
+  // using Iterator = std::list<char>::iterator;
    using CharList = List<char>;
    using Iterator = List<char>::Iterator;
 

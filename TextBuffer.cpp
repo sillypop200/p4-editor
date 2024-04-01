@@ -3,7 +3,7 @@
 #include "TextBuffer.hpp"
 
     TextBuffer::TextBuffer() : row(1), column(0), index(0) {
-    cursor = data.begin();
+        cursor = data.end();
     }
 
     bool TextBuffer::forward(){
@@ -129,7 +129,7 @@
 
 
     bool TextBuffer::down(){
-        Iterator make = cursor;
+        List<char>::Iterator make = cursor;
         int currentRow = row;
         int goalCol = column;
 
@@ -137,6 +137,7 @@
             ++make;
         }
         if(*make != '\n'){
+            ;
             return false;
         }
         else{
@@ -181,7 +182,7 @@
     int TextBuffer::compute_column() const{
         int tracker = 1; // I think this needs a one but could try 0 if not working
 
-        Iterator make = cursor;
+        List<char>::Iterator make = cursor;
 
         while(*make != '\n' && make != data.end()){
             ++make;
