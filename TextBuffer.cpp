@@ -42,10 +42,10 @@
   
     void TextBuffer::insert(char c){
         if(cursor == data.end()){
-            data.insert(cursor,c);
+            cursor = data.insert(cursor,c);
         }
         else{
-           data.insert(cursor,c);
+           cursor = data.insert(cursor,c);
             ++index;
             ++column;
         }
