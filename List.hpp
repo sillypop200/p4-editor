@@ -42,7 +42,7 @@ public:
     return last->datum;
     }
 
-  //EFFECTS:  inserts datum into the front of the list
+  //EFFECTS:  s datum into the front of the list
   void push_front(const T &datum){
     Node *incoming = new Node{first, nullptr,datum};
     if (_size==0){
@@ -186,14 +186,14 @@ public:
     }
     Iterator operator++ (int /* postfix */){
       Iterator copy = *this; 
-      operator--();
+      operator++();
       return copy; 
     }
     bool operator== (Iterator rhs) const {
-      return node_ptr == rhs.node_ptr;
+      return node_ptr == rhs.node_ptr && list_ptr == rhs.list_ptr;
     }
     bool operator!= (Iterator rhs) const {
-      return node_ptr!=rhs.node_ptr;
+      return node_ptr!=rhs.node_ptr || list_ptr != rhs.list_ptr;
     }
     // Type aliases required to work with STL algorithms. Do not modify these.
     using iterator_category = std::bidirectional_iterator_tag;

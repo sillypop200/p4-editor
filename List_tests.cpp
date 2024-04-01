@@ -39,13 +39,13 @@ TEST(equaloperator){
     List<int> list;
     List <int> listcopy; 
     list.push_back(1);
+    listcopy.push_front(3);
     listcopy.push_front(2);
-    listcopy.push_front(1);
     list = listcopy; 
     List<int>::Iterator it =list.begin();
-    ASSERT_EQUAL(*it,1);
-    ++it;
     ASSERT_EQUAL(*it,2);
+    ++it;
+    ASSERT_EQUAL(*it,3);
     ASSERT_EQUAL(2, list.size());
     List<int> empty; 
     list = empty; 
@@ -64,7 +64,7 @@ TEST(empty){
     listcopy.pop_front();
     ASSERT_FALSE(listcopy.empty());
     List<int> help;
-    help.push_back(69);
+    help.push_front(69);
     list=help;
     ASSERT_TRUE(list.front()==69);
     ASSERT_TRUE(list.back()==69);
@@ -104,7 +104,7 @@ TEST(frontandback){
           ASSERT_EQUAL(i, *it);
         }
     }
-    TEST(iteratoroperator){
+    TEST(iteratoroperatorpostfix){
        List<int> list; 
        list.push_back(1);
        list.push_back(2);
@@ -115,10 +115,11 @@ TEST(frontandback){
        ASSERT_FALSE(it!=itcopy);
        ++it;
        it++;
+       ASSERT_EQUAL(3,*it);
+       ASSERT_FALSE(it==itcopy);
+       --it;
+       --it;
        ASSERT_EQUAL(1,*it);
-       ASSERT_TRUE(it==itcopy);
-       ++it;
-       ++it;
        it++;
        ASSERT_FALSE(it==itcopy);
        ASSERT_TRUE(it!=itcopy);
@@ -126,6 +127,22 @@ TEST(frontandback){
        ++it;
        ASSERT_FALSE(it==itcopy);
        ASSERT_TRUE(it!=itcopy);
+       ASSERT_EQUAL(3,*it);
+    }
+    TEST(moreiterator){
+        List<int>::Iterator help;
+        List<int>::Iterator helpcopy;
+        ASSERT_TRUE(help==helpcopy);
+        List<int> lit; 
+        lit.push_back(39);
+        lit.push_back(24);
+        lit.push_back(3);
+        List<int>::Iterator list = lit.end();
+        ASSERT_FALSE(list==help);
+        ASSERT_TRUE(list!=helpcopy);
+        --list;
+        List<int>::Iterator yum = lit.begin(); 
+        ASSERT_TRUE(list!= yum);
     }
     TEST(copyconstructor){
         List<int> list;
