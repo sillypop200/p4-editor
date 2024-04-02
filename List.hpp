@@ -44,7 +44,7 @@ public:
 
   //EFFECTS:  s datum into the front of the list
   void push_front(const T &datum){
-    Node *incoming = new Node{first, nullptr,datum};
+    Node *incoming = new Node {first, nullptr,datum};
     if (_size==0){
       last=incoming;
       first=incoming;
@@ -276,11 +276,13 @@ public:
     pop_back();
     return Iterator(this, nullptr);
   }else{
-
-  ((i.node_ptr)->prev)->next = (i.node_ptr)->next; 
-  ((i.node_ptr)->next)->prev=(i.node_ptr)->prev; 
+    Node* nextvalue = i.node_ptr->next;
+    Node *to_delete = i.node_ptr;
+  ((i.node_ptr)->prev)->next = nextvalue; 
+  (nextvalue)->prev=(i.node_ptr)->prev; 
+  delete to_delete;
   --_size;
-   return Iterator (this, (i.node_ptr)->next);
+   return Iterator (this, nextvalue);
   }
   }
   

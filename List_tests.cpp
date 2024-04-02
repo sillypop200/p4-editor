@@ -263,4 +263,33 @@ TEST(frontandback){
        }
        ASSERT_EQUAL(*it,1);
     }
+    TEST(erasemiddle){
+        List<int> list;
+       list.push_back(1);
+       list.push_back(2);
+       list.push_back(3);
+        list.push_back(4);
+       list.push_back(5);
+       list.push_back(6);
+       list.push_back(7);
+       list.push_back(8);
+       list.push_back(9);
+       List<int>::Iterator it = list.end();
+       for (int i = 0; i<5;++i){
+        --it;
+       }
+       List<int>::Iterator deleted = list.erase(it);
+       ASSERT_EQUAL(*deleted,6);
+       List<int>::Iterator meow = list.begin();
+       int i =1 ; 
+       for (;i<4;++i,++meow){
+        ASSERT_EQUAL(*meow,i);
+       }
+       ++i;
+       ++i;
+        ASSERT_EQUAL(list.size(),8);
+       for (;i<4;++i,++meow){
+        ASSERT_EQUAL(*meow,i);
+    }
+    }
 TEST_MAIN()

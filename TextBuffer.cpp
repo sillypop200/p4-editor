@@ -11,14 +11,17 @@
             return false;
         }
         if(*cursor == '\n'){
-            column = 0;
+            ++cursor;
             ++row;
+            ++index;
+            column = 0;
+
         }
         else{
             ++column;
+            ++cursor;
+            ++index;
         }
-        ++cursor;
-        ++index;
         return true;
     }
 
@@ -26,22 +29,22 @@
         if(cursor == data.begin()){
             return false;
         }
-        --cursor;
-        if(*cursor == '\n'){
-            column = compute_column();
+        if(column == 0){
             --row;
+            --cursor;
+            column = compute_column();
             --index;
-
         }
         else{
             --index;
             --column;
+            --cursor;
         }
         return true;
     }
   
     void TextBuffer::insert(char c){
-        if(cursor == data.end()){
+        if(cursor == data.end() || data.empty()){
             data.push_back(c);
         }
         else{
@@ -61,34 +64,32 @@
         ++cursor;
         if(cursor == data.end()){
             --cursor;
-            data.erase(cursor);
-            cursor = data.end();
+            cursor = data.erase(cursor);
         }
         else{
             --cursor;
-            data.erase(cursor);
+            cursor = data.erase(cursor);
         }
         return true;
     }
 
     void TextBuffer::move_to_row_start(){
-        column = 0;
-        if (row == 1){
-            cursor = data.begin();
-            index = 0;
-        }
-        else{
-            while(*cursor != '\n'){
-                --cursor;
-                --index;
+            if (row == 1){
+                while(cursor != data.begin()){
+                    backward();
+                }
             }
-            ++cursor;
-            ++index;
-        }
-    }
+            else{
+                int j = column;
+                for (int i = 0; i < j; ++i){
+                    backward();
+                }
+               
+            }
 
+    }
     void TextBuffer::move_to_row_end() {
-        while(*cursor != '\n' && cursor != data.end()){
+        while(cursor != data.end() && *cursor != '\n'){
             forward();
         }
     }
@@ -119,11 +120,12 @@
         while(currentRow == row){
             backward();
         }
-        if(compute_column() >= goalCol){
+        int turtle = compute_column();
+        if(turtle <= goalCol){
             return true;
         }
         else{
-            while(goalCol > column){
+            while(goalCol < column){
                 backward();
             }
             return true;
@@ -132,23 +134,30 @@
 
 
     bool TextBuffer::down(){
-        List<char>::Iterator make = cursor;
+        Iterator make = cursor;
         int currentRow = row;
         int goalCol = column;
 
-        while(*make != '\n' && make != data.end()){
+        while(make != data.end() && *make != '\n'){
             ++make;
         }
-        if(*make != '\n'){
-            ;
+        if(make == data.end()){
             return false;
         }
         else{
             while(row == currentRow){
                 forward();
             }
-            while(goalCol > column){
-                forward();
+            int turtle = compute_column();
+            if(goalCol > turtle){
+                for(int i = 0; i < turtle; i++){
+                    forward();
+                }
+            }
+            else{
+                while(goalCol != column){
+                    forward();
+                }    
             }
             return true;    
         }
@@ -183,17 +192,19 @@
     }
 
     int TextBuffer::compute_column() const{
-        int tracker = 1; // I think this needs a one but could try 0 if not working
+        int tracker = 0; // I think this needs a one but could try 0 if not working
 
-        List<char>::Iterator make = cursor;
+        Iterator make = cursor;
 
-        while(*make != '\n' && make != data.end()){
+        while(make != data.end() && *make != '\n'){
             ++make;
         }
               --make;
-              ++tracker; 
-        while(*make != '\n' && make != data.begin()){
+        while(*make != '\n' && make != data.begin()){//its not counting the beginning 
             --make;
+            ++tracker;
+        }
+        if(make==data.begin()){
             ++tracker;
         }
         return tracker;
