@@ -212,7 +212,7 @@ TEST(frontandback){
         ASSERT_EQUAL(*(list.begin()),1);
         ASSERT_EQUAL(*output,1);
         ASSERT_EQUAL(list.size(),1);
-        list.erase(list.begin());// use erase on end 
+        list.erase(list.begin());// use erase on one and onyl  
         ASSERT_TRUE(list.empty());
     }
     TEST(insertthenerase2){
@@ -238,6 +238,11 @@ TEST(frontandback){
         --it; 
         List<int>::Iterator meep = list.insert(it,4);
         ASSERT_EQUAL(*meep,4);
+        List<int>::Iterator conner = list.end();
+        --conner;
+        conner = list.erase(conner); //erase last element 
+        List<int>::Iterator theend=list.end();
+        ASSERT_TRUE(conner==theend);
     }
     TEST(backwards){
         List<int> list; 
