@@ -42,13 +42,16 @@
   
     void TextBuffer::insert(char c){
         if(cursor == data.end()){
-            cursor = data.insert(cursor,c);
+            data.push_back(c);
         }
         else{
-           cursor = data.insert(cursor,c);
-            ++index;
-            ++column;
+            data.insert(cursor,c);
         }
+        ++index;
+        if (c == '\n'){
+            column = 0 ; 
+            ++row;
+        } else {++column;}
     }
 
     bool TextBuffer::remove() { // NOt sure about indexing
@@ -187,6 +190,8 @@
         while(*make != '\n' && make != data.end()){
             ++make;
         }
+              --make;
+              ++tracker; 
         while(*make != '\n' && make != data.begin()){
             --make;
             ++tracker;
